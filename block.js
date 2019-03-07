@@ -15,6 +15,10 @@ class Block{
             Data:      ${this.data}`;
     }
 
+    static genesis(){
+        return new this('GenesisTimeStamp', ' --noLastHash--', 'f1r57_h45h', [])
+    }
+
 }
 
 module.exports = Block
