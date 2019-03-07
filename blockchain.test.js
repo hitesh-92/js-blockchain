@@ -43,4 +43,19 @@ describe("Blockchain", () => {
         expect( blockchain.isValidChain( blockchain2.chain ) ).toBe(false)
     })
 
+    it("replaces current chain with new valid chain", () => {
+        blockchain2.addBlock('Zoo')
+        blockchain.replaceChain( blockchain2.chain )
+
+        expect(blockchain.chain).toEqual(blockchain2.chain)
+    })
+
+    it("does not replace chain if new chain length invalid", () => {
+        blockchain.addBlock('foo')
+        //blockchain has 2 blocks. blockchain2 has 1 block
+        blockchain.replaceChain( blockchain2.chain )
+
+        expect(blockchain.chain).not.toEqual(blockchain2.chain)
+    })
+
 })
