@@ -28,20 +28,18 @@ class Block{
     }
 
     static mineBlock(lastBlock, data){
-        const lastHash =  lastBlock.hash
-        let nonce = 0, 
-            hash, 
-            timestamp,
-            {difficulty} = lastBlock
+        const lastHash =  lastBlock.hash;
+        let nonce = 0;
+        let hash;
+        let timestamp;
+        let {difficulty} = lastBlock;
 
         do{
             nonce++
             timestamp = Date.now()
             difficulty = Block.adjustDifficulty(lastBlock, timestamp)
             hash = Block.hash(timestamp, lastHash, data, nonce, difficulty)
-        } while (hash.substring(0, difficulty) !== '0'.repeat(difficulty))
-
-
+        } while (hash.substring(0, difficulty) != '0'.repeat(difficulty))
 
         return new this(timestamp, lastHash, hash, data, nonce, difficulty)
     }
@@ -57,10 +55,10 @@ class Block{
     }
 
     static adjustDifficulty(lastBlock, currentTime){
-        let {difficulty} = lastBlock
-        miningRate = lastBlock.timestamp + MINE_RATE > currentTime
-        miningRate ? difficulty+1 : difficulty-1
-        return difficulty
+        let {difficulty} = lastBlock;
+        const timeTaken = lastBlock.timestamp + MINE_RATE;
+        difficulty = timeTaken > currentTime ? ++difficulty : --difficulty;
+        return difficulty;
     }
 
 }
