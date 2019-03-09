@@ -15,7 +15,7 @@ class Transaction{
         //block transaction which exceeds current balance
         const exceedsAmount = amount > senderWallet.balance
         if(exceedsAmount){
-            console.log(`Transaction Amount:${amount} exceeds current balance: ${snederWallet.balance}`)
+            console.log(`Transaction Amount:${amount} exceeds current balance:${senderWallet.balance}`)
             return
         }
 
