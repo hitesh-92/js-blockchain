@@ -4,7 +4,7 @@ const Wallet = require('./index')
 
 describe("TransactionPool", () => {
 
-    let tPool, wallet, transaction
+    let tP, wallet, transaction
     
     beforeEach(() => {
         tP = new TransactionPool()
@@ -30,6 +30,12 @@ describe("TransactionPool", () => {
         const updatedTransaction = tP.transactions.find(t => t.id === newTransaction.id)
 
         expect(JSON.stringify(updatedTransaction)).not.toEqual(oldTransaction)
+    })
+
+    it("clears transactions", () => {
+        tP.clear()
+
+        expect(tP.transactions).toEqual([])
     })
 
     describe("mixing valid and corrupt transactions", () => {
