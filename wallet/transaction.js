@@ -26,12 +26,25 @@ class Transaction{
 
         const recipientDetails = {
             amount,
-            recipient
+            address: recipient
         }
 
         transaction.outputs.push(...[ senderDetails, recipientDetails ])
+
+        Transaction.signTransaction(transaction, senderWallet)
         
         return transaction
+    }
+
+    static signTransaction(transaction, senderWallet,){
+
+        transaction.input = {
+            timestamp: Date.now(),
+            amount: senderWallet.balance,
+            address: senderWallet.publicKey,
+            signature: senderWallet.sign(ChainUtil.hash(transaction.outputs))
+        }
+
     }
 
 }
