@@ -1,18 +1,18 @@
 const TransactionPool = require('./transaction-pool')
 const Transaction = require('./transaction')
 const Wallet = require('./index')
+const Blockchain = require('../blockchain')
 
 describe("TransactionPool", () => {
 
-    let tP, wallet, transaction
+    let tP, wallet, transaction, blockchian
     
     beforeEach(() => {
         tP = new TransactionPool()
         wallet = new Wallet()
+        blockchian = new Blockchain()
 
-        // transaction = Transaction.newTransaction(wallet, 'random-address', 30)
-        // tP.updateOrAddTransaction(transaction)
-        transaction = wallet.createTransaction('random-address', 30, tP)
+        transaction = wallet.createTransaction('random-address', 30, blockchian, tP)
     })
 
     it("adds transaction to pool", () => {
@@ -47,7 +47,7 @@ describe("TransactionPool", () => {
 
             for(let i=0; i<6; i++){
                 wallet = new Wallet()
-                transaction = wallet.createTransaction(`random-address`, 25, tP)
+                transaction = wallet.createTransaction(`random-address`, 25, blockchian, tP)
                 if(i%2 == 0) transaction.input.amount = 500000
                 else validTransactions.push(transaction)
             }
