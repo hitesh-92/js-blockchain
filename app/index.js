@@ -9,9 +9,10 @@ const TransactionPool = require('../wallet/transaction-pool')
 const PORT =  process.env.PORT || 3001
 
 const blockchain = new Blockchain()
-const p2pServer = new P2pServer(blockchain)
+// const p2pServer = new P2pServer(blockchain)
 const wallet = new Wallet()
 const tP = new TransactionPool()
+const p2pServer = new P2pServer(blockchain, tP)
 
 app.use(bodyParser.json())
 
@@ -30,6 +31,16 @@ app.post('/mine', (req,res) => {
 
 app.get('/transactions', (req,res) => {
     res.json(tP.transactions)
+})
+
+app.post('/transact', (req,res) => {
+
+    const {recipient, amount} = req.body
+    const transaction = wallet.createTransaction(recipient, amount, tP)
+
+    p2pServer.broadcastTransaction(transaction)
+
+    res.redirect('/transactions')
 })
 
 app.listen(PORT, () => console.log(`Running... Port:${PORT}`))
