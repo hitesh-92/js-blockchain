@@ -1,5 +1,5 @@
-const ChainUtil = require('../chain-utils+')
-const {INITIAL_BALANCE} = require('../config').default
+const ChainUtil = require('../chain-utils')
+const {INITIAL_BALANCE} = require('../config')
 
 class Wallet{
 
