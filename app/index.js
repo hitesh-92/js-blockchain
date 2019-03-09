@@ -3,11 +3,15 @@ const app = express()
 const bodyParser = require('body-parser')
 const Blockchain = require('../blockchain')
 const P2pServer = require('./p2p-server')
+const Wallet = require('../wallet')
+const TransactionPool = require('../wallet/transaction-pool')
 
 const PORT =  process.env.PORT || 3001
 
 const blockchain = new Blockchain()
 const p2pServer = new P2pServer(blockchain)
+const wallet = new Wallet()
+const tP = new TransactionPool()
 
 app.use(bodyParser.json())
 
@@ -22,6 +26,10 @@ app.post('/mine', (req,res) => {
     p2pServer.syncChains()
 
     res.redirect('/blocks')
+})
+
+app.get('/transactions', (req,res) => {
+    res.json(tP.transactions)
 })
 
 app.listen(PORT, () => console.log(`Running... Port:${PORT}`))
